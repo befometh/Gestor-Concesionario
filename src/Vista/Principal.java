@@ -4,10 +4,10 @@
  */
 package Vista;
 
-import Interfaz.Concesionario;
+import Controlador.Concesionario;
 
 import static Esquema.VehiculoUtil.validador;
-import static Interfaz.Concesionario.mostrarVehiculo;
+import static Controlador.Concesionario.mostrarVehiculo;
 
 import java.util.Scanner;
 

@@ -2,7 +2,7 @@
  * @author: Cristyan Morales Acevedo
  * @desc Clase Concesionario, gestiona y administra todos los vehículos de un concesionario, es la parte más robusta del programa. Agrega, elimina, lista, busca y modifica los kilómetros de un vehículo.
  */
-package Interfaz;
+package Controlador;
 
 import Esquema.Vehiculo;
 
