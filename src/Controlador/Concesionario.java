@@ -15,10 +15,18 @@ public class Concesionario {
     private Vehiculo[] lista;
 
     //Constructores
+
+    /**
+     * Constructor que no solicita valores
+     */
     public Concesionario() {
         this.lista = new Vehiculo[50];
     } //el arreglo será de 50 espacios por defecto si el usuario no ingresa un tamaño
 
+    /**
+     * Sobrecarga del constructor, recibe el tamaño del arreglo
+     * @param tamanio tamaño actual
+     */
     public Concesionario(int tamanio) {
         this.lista = new Vehiculo[tamanio];
     }//El usuario puede cambiar el tamaño de la memoria principal, eso si, recordadndo que luego no se puede modificar de nuevo (en desuso)

@@ -89,7 +89,6 @@ public class Vehiculo {
 
     //Lista de Setters
 
-
     public void setCodigo(int cod) { this.cod = cod; }
 
     public void setMatricula(String matricula) {

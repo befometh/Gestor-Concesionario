@@ -75,6 +75,11 @@ public class Principal {
         } while (op != 6||error);
     }//Fin del main
 
+    /**
+     * Método que recibe la matrícula y valida si está bien implementada
+     * @param matricula
+     * @return
+     */
     public static String ingresarMatricula(String matricula) {
         Scanner ingreso = new Scanner(System.in);
         String dato;
