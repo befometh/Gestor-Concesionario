@@ -6,8 +6,7 @@ package Vista;
 
 import Controlador.Concesionario;
 
-import static Esquema.VehiculoUtil.validador;
-import static Controlador.Concesionario.mostrarVehiculo;
+import static Esquema.VehiculoUtil.*;
 
 import java.util.Scanner;
 
@@ -19,7 +18,6 @@ public class Principal {
     static Concesionario oficina = new Concesionario();
 
     public static void main(String[] args) {
-
         int op=6;
         boolean error = true;
         Scanner teclado;
@@ -48,7 +46,7 @@ public class Principal {
                         break;
                     case 3:
                         dato = ingresarMatricula("a buscar");
-                        System.out.println(mostrarVehiculo(oficina.buscarVehiculo(dato)));
+                        System.out.println(oficina.buscarVehiculo(dato));
                         break;
                     case 4:
                         dato = ingresarMatricula("al que va a modificar el kilometraje");
@@ -68,28 +66,17 @@ public class Principal {
                         error = false;
                         break;
                 }
-
             }catch(Exception e){
                 System.out.println("La opción que está ingresando no es válida, vuelva a intentarlo");
             }
         } while (op != 6||error);
     }//Fin del main
+    static void separador(){
+        System.out.println("-----------------------------------------------");
+    }
 
-    /**
-     * Método que recibe la matrícula y valida si está bien implementada
-     * @param matricula
-     * @return
-     */
-    public static String ingresarMatricula(String matricula) {
-        Scanner ingreso = new Scanner(System.in);
-        String dato;
-        boolean error = true;
-        do {
-            System.out.println("Por favor ingrese el número de matrícula " + matricula);
-            dato = ingreso.next();
-            if (validador("[0-9]{4}[A-Z]{3}", dato))
-                error = false;
-        } while (error);
-        return dato;
+    static void cabecero(){
+        separador();
+
     }
 }

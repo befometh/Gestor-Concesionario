@@ -6,6 +6,7 @@
 package Esquema; //Paquete contenedor
 
 import java.time.LocalDate; //Requerido para el reconocimiento de fechas y sus diferentes funciones, como el LocalDate.isBefore()
+import java.util.Scanner;
 import java.util.regex.*; //Requerido para el funcionamiento del Regex
 
 public class VehiculoUtil {
@@ -51,28 +52,25 @@ public class VehiculoUtil {
      * @param anio año de compra
      * @param mes  mes de compra (en número)
      * @param dia  de compra
-     * @return error: verdadero si la fecha es válida y es anterior al día de hoy, falso si no cumple con ambas características
+     * @return error: falso si la fecha es válida y es anterior al día de hoy, verdadero si no cumple con ambas características, (ajustandose a la variable error de Principal)
      */
     public static boolean validarFecha(int anio, int mes, int dia) {
-        boolean error = true;
         LocalDate fecha; //parametro que va a albergar la fecha reconstruida en formato LocalDate(año, mes, día)
         try {
             fecha = LocalDate.of(anio, mes, dia);
             if (fecha.isBefore(LocalDate.now()))
-                error = false;
-        } catch (Exception ignored) {
-        }
+                return false;
+        } catch (Exception ignored) {}
        /*
-       Se genera un catch en caso que falle el ingreso de la fecha por valores incorrectos, como error sigue siendo true,
+       Se genera un catch en caso de que falle el ingreso de la fecha por valores incorrectos, como error sigue siendo true,
        se ignora dicho catch.
        */
-        return error;
+        return true;
     }
 
     /**
      * Se nos solicita comprobar el nombre de la pesona exclusivamente usando métodos de la clase String, debe contar con al menos un nombre y dos apellidos (dos espacios intermedios) y un tamaño máximo de 40 caracteres
-     *
-     * @param nombre
+     * @param nombre de la persona a verificar
      * @return error: un booleano que será true si el nombre que ingresa no cumple con las condiciones, y falso si las cumple
      */
     public static boolean verificarNombre(String nombre) {
@@ -91,4 +89,97 @@ public class VehiculoUtil {
         return error;
     }
 
-}
+    /**
+     * Método que se encarga de administrar la función de reconocimiento de patrones y contacta con Ejerc1Util.VehiculoUtil
+     *
+     * @param nombreDato nombre de la variable a verificar
+     * @param patron     el patrón al que debe cumplir, de formato Regex.
+     * @param mensaje    mensaje de error que sale al fallo
+     * @return patrón ya verificado
+     */
+    public static String verificarPatron(String nombreDato, String patron, String mensaje) {
+        boolean valido; //booleano, verdadero si no hay error en el ingreso, falso si lo hay
+        String dato;
+        do {
+            dato = pedirString(nombreDato);
+            valido = validador(patron, dato);
+            if (!valido)
+                System.out.println(mensaje);
+        } while (!valido);
+        return dato;
+    }
+
+    /**
+     * Método que permite pedir cadenas de caracteres al usuario
+     *
+     * @param nombreDato dato que completa el nombre del parametro a completar
+     * @return la cadena ya recibida.
+     */
+    public static String pedirString(String nombreDato) {
+        System.out.print("Introduce " + nombreDato + ": ");
+        Scanner sc = new Scanner(System.in);
+        return sc.nextLine();
+    }
+
+    /**
+     * Método que recibe la matrícula y valida si está bien implementada
+     * @param matricula del vehículo
+     * @return La matrícula con el formato correcto
+     */
+    public static String ingresarMatricula(String matricula) {
+        Scanner ingreso = new Scanner(System.in);
+        String dato;
+        boolean error = true;
+        do {
+            System.out.println("Por favor ingrese el número de matrícula " + matricula);
+            dato = ingreso.next();
+            if (validador("[0-9]{4}[A-Z]{3}", dato))
+                error = false;
+        } while (error);
+        return dato;
+    }
+
+    /**
+     * Método que permite pedir números con punto flotante al usuario
+     *
+     * @return num: el número ya captado.
+     */
+    public static double pedirDouble() {
+        boolean doble = false;
+        double num = 0;
+        while (!doble) {
+            System.out.println("Introduce el precio del vehículo: ");
+            Scanner sc = new Scanner(System.in);
+            try {
+                num = sc.nextDouble();
+                doble = true;
+            } catch (Exception e) {
+                System.out.println("El valor ingresado no es correcto, por favor vuelva a intentarlo");
+            }
+        }
+        return num;
+    }
+
+    /**
+     * Método que permite pedir números al usuario
+     *
+     * @param nombreDato mensaje que completa el nombre del parametro a completar
+     * @return num: el número ya captado.
+     */
+    public static int pedirNumero(String nombreDato) {
+        boolean numero = false;
+        int num = 0;
+        while (!numero) {
+            System.out.print("Introduce " + nombreDato + ": ");
+            Scanner sc = new Scanner(System.in);
+            try {
+                num = sc.nextInt();
+                numero = true;
+
+            } catch (Exception e) {
+                System.out.println("El dato ingresado no es correcto, por favor vuelva a intentarlo.");
+            }
+        }
+        return num;
+    }
+}//Fin de clase

@@ -10,7 +10,6 @@ import java.time.*;
 import static Esquema.VehiculoUtil.*;
 
 public class Vehiculo {
-    private int cod;
     private String matricula;
     private String marca;
     private int kilometros;
@@ -19,7 +18,6 @@ public class Vehiculo {
     private double precio;
     private String nombrePropietario;
     private String dni;
-    private static int numVehiculos = 0;
 
     public Vehiculo(){
 
@@ -37,7 +35,6 @@ public class Vehiculo {
      * @param dni del propietario del vehículo
      */
     public Vehiculo(String matricula, String marca, int kilometros, LocalDate fecha, String desc, double precio, String nombrePropietario, String dni) {
-        this.cod = numVehiculos;
         this.matricula = matricula;
         this.marca = marca;
         this.kilometros = kilometros;
@@ -49,8 +46,6 @@ public class Vehiculo {
     }
 
    //Lista de Getters
-    public int getCodigo() { return cod; }
-
     public String getMarca() {
         return marca;
     }
@@ -83,13 +78,7 @@ public class Vehiculo {
         return dni;
     }
 
-    public static int getNumVehiculos() {
-        return numVehiculos;
-    }
-
     //Lista de Setters
-
-    public void setCodigo(int cod) { this.cod = cod; }
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
@@ -123,30 +112,12 @@ public class Vehiculo {
         this.dni = dni;
     }
 
-    public static void setNumVehiculos(int numVehiculos) {
-        Vehiculo.numVehiculos = numVehiculos;
-    }
-
     /**
-     * función que permite saber la antigüedad del vehículo
+     * Método que permite saber la antigüedad del vehículo
      * @return el tiempo en años cursado.
      */
     public int get_Anios(){
         return LocalDate.now().getYear() - this.fecha.getYear();
     }
 
-    /**
-     * Función que permite actualizar los kilómetros del usuario, contacta con Ejerc1Util.VehiculoUtil para realizar la validación
-     * de la información. Verifica que el kilómetro a actualizar sea mayor que el actual, y siempre mayor a 0
-     * @param nuevo número de kilómetros que va a hacer el cambio
-     * @return
-     */
-    public boolean actualizarKilometros(int nuevo){
-        boolean error = true;
-        if(validarKilometros(this.kilometros,nuevo)){
-            this.kilometros = nuevo;
-            error = false;
-        }
-        return error;
-    }
 }
