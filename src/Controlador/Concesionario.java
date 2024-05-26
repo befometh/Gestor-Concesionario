@@ -9,11 +9,10 @@ import Esquema.Vehiculo;
 import static Esquema.VehiculoUtil.*;
 
 import java.time.LocalDate;
-import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Concesionario {
-    private final TreeMap<String,Vehiculo> lista=new TreeMap<>();
+    private final TreeMap<String, Vehiculo> lista = new TreeMap<>();
 
     /**
      * Método que permite crear un vehículo, calcado casi en su totalidad de la unidad 5.
@@ -25,11 +24,11 @@ public class Concesionario {
         String matricula;
         do {
             matricula = verificarPatron("el número de matrícula, Formato: 1234AAA (Solo en mayúsculas)", "[0-9]{4}[A-Z]{3}", "Formato de matrícula no es correcto, vuelva a intentarlo");
-            if(lista.containsKey(matricula))
+            if (lista.containsKey(matricula))
                 System.out.println("La matrícula que intenta ingresar se encuentra asociada a otro vehículo. Vuelva a intentarlo.");
             else
                 error = false;
-        }while(error);
+        } while (error);
         int kilometros; //recibirá los kilómetros que harán parte del objeto vehículo
         do {
             kilometros = pedirNumero("el número de kilómetros");
@@ -54,13 +53,13 @@ public class Concesionario {
         String desc = pedirString("la descripción del vehículo");
         double precio = pedirDouble();
         String nombrePropietario;
-        do{
+        do {
             nombrePropietario = pedirString("el nombre del propietario, recuerde que debe tener un nombre y dos apellidos, no puede exceder los 40 caracteres en total (contando espacios)");
             error = verificarNombre(nombrePropietario);
-        }while(error);
+        } while (error);
         String dni = verificarPatron("El número del DNI", "[XxYy0-9][0-9]{7}[A-Za-z]", "El DNI ingresado no es correcto, por favor vuelva a intentarlo");
         Vehiculo dato = new Vehiculo(matricula, marca, kilometros, fecha, desc, precio, nombrePropietario, dni); //asignación de los datos al objeto global: vehiculo
-            lista.put(matricula, dato);
+        lista.put(matricula, dato);
     }
 
     /**
@@ -69,25 +68,17 @@ public class Concesionario {
      * @return El mensaje entero con el vehículo ya construido.
      */
     public String listarVehiculos() {
-        StringBuffer mensaje;
+        StringBuilder mensaje;
+        int contador = 0;
         if (lista.isEmpty())
-            mensaje = new StringBuffer("La lista está vacía en este momento, ingrese al menos un dato para crearla");
+            mensaje = new StringBuilder("La lista está vacía en este momento, ingrese al menos un dato para crearla");
         else {
-            mensaje = new StringBuffer(
-                    "|\tMarca\t|\tMatrícula\t|\tNombre Propietario\t|\tDNI/NIE\t|\tKilometraje\t|\tFecha de Compra\t|\tPrecio\t|\tDescripción\n"
-            );
-            int tam = mensaje.length();
-            mensaje.append("-".repeat(tam));
-            mensaje.append("\n");
-            for (Vehiculo dato : lista.values()){
-                mensaje.append("|\t" + dato.getMarca() + "\t|\t");
-                mensaje.append(dato.getMatricula() + "\t|\t");
-                mensaje.append(dato.getNombrePropietario() + "\t|\t");
-                mensaje.append(dato.getDni() + "\t|\t");
-                mensaje.append(dato.getKilometros() + "\t|\t");
-                mensaje.append(dato.getFecha().toString() + "\t|\t");
-                mensaje.append(dato.getPrecio() + "\t|\t");
-                mensaje.append(dato.getDesc() + "\n");
+            mensaje = new StringBuilder();
+            for (Vehiculo dato : lista.values()) {
+                contador ++;
+                mensaje.append(buscarVehiculo(dato.getMatricula()));
+                if(contador != lista.size())
+                    mensaje.append("\n");
             }
         }
         return mensaje.toString();
@@ -119,29 +110,26 @@ public class Concesionario {
 
     /**
      * Función que muestra un solo vehículo, de manera estética.
+     *
      * @param matricula la matrícula a buscar
      * @return Una cadena con el vehículo buscado.
      */
-    public String buscarVehiculo(String matricula){
-        StringBuffer dato;
-        if(lista.containsKey(matricula)){
+    public String buscarVehiculo(String matricula) {
+        StringBuilder dato;
+        if (lista.containsKey(matricula)) {
             Vehiculo vehiculo = lista.get(matricula);
-            dato = new StringBuffer(
-                    "|\tMarca\t|\tMatrícula\t|\tNombre Propietario\t|\tDNI/NIE\t|\tKilometraje\t|\tFecha de Compra\t|\tPrecio\t|\tDescripción\n"
-            );
-            int tam = dato.length();
-            dato.append("-".repeat(tam) + "\n");
-            dato.append("|\t" + vehiculo.getMarca() + "\t|\t");
-            dato.append(vehiculo.getMatricula() + "\t|\t");
-            dato.append(vehiculo.getNombrePropietario() + "\t|\t");
-            dato.append(vehiculo.getDni() + "\t|\t");
-            dato.append(vehiculo.getKilometros() + "\t|\t");
-            dato.append(vehiculo.getFecha().toString() + "\t|\t");
-            dato.append(vehiculo.getPrecio() + "\t|\t");
-            dato.append(vehiculo.getDesc() + "\n");
-        }
-        else{
-            dato = new StringBuffer("El vehículo que ha ingresado no existe.");
+            dato = new StringBuilder();
+            dato.append("|\t").append(vehiculo.getMarca()).append("\t|\t");
+            dato.append(vehiculo.getMatricula()).append("\t|\t");
+            dato.append(vehiculo.getNombrePropietario()).append("\t|\t");
+            dato.append(vehiculo.getDni()).append("\t|\t");
+            dato.append(vehiculo.getKilometros()).append("\t|\t");
+            dato.append(vehiculo.getFecha().toString()).append("\t|\t");
+            dato.append(vehiculo.getPrecio()).append("\t|\t");
+            dato.append(vehiculo.getDesc()).append("\t|");
+
+        } else {
+            dato = new StringBuilder("El vehículo que ha ingresado no existe.");
         }
         return dato.toString();
     }
@@ -152,16 +140,14 @@ public class Concesionario {
      * @param matricula del vehículo a eliminar, si no se encuentra, arroja error al usuario.
      */
     public void eliminarVehiculo(String matricula) {
-        if(lista.containsKey(matricula)){
+        if (lista.containsKey(matricula)) {
             System.out.println("A continuación va a eliminar el vehículo: ");
             System.out.println(buscarVehiculo(matricula));
             System.out.println("¿Está seguro de querer eliminarlo? \n1.Si\t2.No");
             int opcion = pedirNumero("opción: ");
-            switch (opcion) {
-                case 1:
-                    lista.remove(matricula);
-                    System.out.println("El vehículo ha sido eliminado de la base de datos.");
-                    break;
+            if (opcion == 1) {
+                lista.remove(matricula);
+                System.out.println("El vehículo ha sido eliminado de la base de datos.");
             }
         }
     }
