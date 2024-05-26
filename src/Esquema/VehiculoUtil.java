@@ -30,18 +30,10 @@ public class VehiculoUtil {
      *
      * @param kilometros el que es mayor
      * @param min        comprueba el que es menor
-     * @return error: verdadero si kilometros es mayor, falso en lo contrario o que se produzca un error de reconocimiento de datos
+     * @return error: verdadero si kilometros es menor o igual, falso en lo contrario
      */
     public static boolean validarKilometros(int kilometros, int min) {
-        boolean error = true;
-        try {
-            error = kilometros <= min;
-        } catch (Exception ignored) {
-        }
-        /*
-        catch ignorado ya que si no se consigue ingresar no puede cambiar el valor de error a falso
-        */
-        return error;
+        return kilometros <= min;
     }
 
     /**
@@ -60,7 +52,8 @@ public class VehiculoUtil {
             fecha = LocalDate.of(anio, mes, dia);
             if (fecha.isBefore(LocalDate.now()))
                 return false;
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
        /*
        Se genera un catch en caso de que falle el ingreso de la fecha por valores incorrectos, como error sigue siendo true,
        se ignora dicho catch.
@@ -70,17 +63,18 @@ public class VehiculoUtil {
 
     /**
      * Se nos solicita comprobar el nombre de la pesona exclusivamente usando métodos de la clase String, debe contar con al menos un nombre y dos apellidos (dos espacios intermedios) y un tamaño máximo de 40 caracteres
+     *
      * @param nombre de la persona a verificar
      * @return error: un booleano que será true si el nombre que ingresa no cumple con las condiciones, y falso si las cumple
      */
     public static boolean verificarNombre(String nombre) {
         boolean error = true;
         int[] spc = new int[3];
-        spc[0]=-1;
+        spc[0] = -1;
         int i = 1;
         if (nombre.length() <= 40) {
             do {
-                spc[i] = nombre.indexOf(" ", spc[i - 1]+1);
+                spc[i] = nombre.indexOf(" ", spc[i - 1] + 1);
                 i++;
             } while (spc[1] != -1 && i < 3);
             if (spc[1] != -1 && spc[2] != -1)
@@ -116,22 +110,23 @@ public class VehiculoUtil {
      * @return la cadena ya recibida.
      */
     public static String pedirString(String nombreDato) {
-        System.out.print("Introduce " + nombreDato + ": ");
+        System.out.println("Introduce " + nombreDato + ": ");
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
 
     /**
      * Método que recibe la matrícula y valida si está bien implementada
-     * @param matricula del vehículo
+     *
+     * @param nomDato de lo que se va a realizar con la matrícula
      * @return La matrícula con el formato correcto
      */
-    public static String ingresarMatricula(String matricula) {
+    public static String ingresarMatricula(String nomDato) {
         Scanner ingreso = new Scanner(System.in);
         String dato;
         boolean error = true;
         do {
-            System.out.println("Por favor ingrese el número de matrícula " + matricula);
+            System.out.println("Por favor ingrese el número de matrícula " + nomDato);
             dato = ingreso.next();
             if (validador("[0-9]{4}[A-Z]{3}", dato))
                 error = false;
@@ -148,7 +143,7 @@ public class VehiculoUtil {
         boolean doble = false;
         double num = 0;
         while (!doble) {
-            System.out.println("Introduce el precio del vehículo: ");
+            System.out.print("Introduce el precio del vehículo: ");
             Scanner sc = new Scanner(System.in);
             try {
                 num = sc.nextDouble();

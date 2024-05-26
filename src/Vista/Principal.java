@@ -42,10 +42,12 @@ public class Principal {
                         oficina.agregarVehiculo();
                         break;
                     case 2:
+                        cabecero();
                         System.out.println(oficina.listarVehiculos());
                         break;
                     case 3:
                         dato = ingresarMatricula("a buscar");
+                        cabecero();
                         System.out.println(oficina.buscarVehiculo(dato));
                         break;
                     case 4:
@@ -69,14 +71,16 @@ public class Principal {
             }catch(Exception e){
                 System.out.println("La opción que está ingresando no es válida, vuelva a intentarlo");
             }
+            separador();
         } while (op != 6||error);
     }//Fin del main
     static void separador(){
-        System.out.println("-----------------------------------------------");
+        System.out.println("-".repeat(129));
     }
 
     static void cabecero(){
         separador();
-
+        System.out.println("|\tMarca\t|\tMatrícula\t|\tNombre Propietario\t|\tDNI/NIE\t|\tKilometraje\t|\tFecha de Compra\t|\tPrecio\t|\tDescripción\t|");
+        separador();
     }
 }
